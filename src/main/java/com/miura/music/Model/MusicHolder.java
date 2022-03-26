@@ -14,6 +14,16 @@ public final class MusicHolder {
     private List<Music> musics;
 
     public MusicHolder() {
+
+        if (!FileExistent.check(MusicHolder.tracks)) {
+            try {
+                tracks.createNewFile();
+                System.out.println("There were no Musics\\Tracks file, so this will create a brand new empty Tracks file.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         this.musics = readMusicFile();
     }
 
