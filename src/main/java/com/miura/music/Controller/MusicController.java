@@ -65,7 +65,9 @@ public class MusicController {
     }
 
 
-
+    /**
+     * Get all musics in the MusicHolder
+     */
     public List<Music> getMusics() {
         return musicHolder.getMusics();
     }
