@@ -100,12 +100,39 @@ public final class MusicHolder {
         int startStr = 0, endStr = 0;
 
         for (int i=0; i<index; i++) startStr = musicsInFile.indexOf("|", startStr + 1);
-        endStr = musicsInFile.indexOf("|", startStr + 1);
+        endStr = musicsInFile.indexOf("|", startStr + 1) + 1;
 
         if (endStr<1) endStr = musicsInFile.length();
 
-        Writer.write(MusicHolder.tracks, musicsInFile.substring(0, startStr) + musicsInFile.substring(endStr, musicsInFile.length()));
+        String separated = (startStr>0 && endStr<musicsInFile.length()) ? "|" : "";
+        String remainMusics = musicsInFile.substring(0, startStr) + separated + musicsInFile.substring(endStr, musicsInFile.length());
+
+        Writer.write(MusicHolder.tracks, remainMusics);
         musics.remove(index);
+    }
+
+
+    public void deleteMusic(Music musicToDelete) {
+        List<Integer> deleteIndex = new LinkedList<>();
+        {
+            int index = 0;
+            for (Music music : this.musics) {
+                if (music.equals(musicToDelete)) deleteIndex.add(index);
+                index++;
+            }
+        }
+
+
+        if (deleteIndex.size()==0) {
+            System.err.println("There were no such music given in the MusicHolder");
+            return;
+        }
+
+
+        int i = 0;
+        for (int index : deleteIndex) {
+            this.deleteMusic(index - i++);
+        }
     }
 
 

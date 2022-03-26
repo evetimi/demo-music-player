@@ -44,20 +44,26 @@ public class MusicController {
 
         if (musics==null) return null;
 
-        int index = 0;
-        List<Integer> deleteIndex = new ArrayList<>();
+        List<Integer> deleteIndex = new LinkedList<>();
         List<Music> deletedMusics = new LinkedList<>();
-        for (Music music : musics) {
-            if (!FileExistent.check(music.getFile())) {
-                deletedMusics.add(music);
-                deleteIndex.add(index);
+        {
+            int index = 0;
+            for (Music music : musics) {
+                if (!FileExistent.check(music.getFile())) {
+                    deletedMusics.add(music);
+                    deleteIndex.add(index);
+                }
+                index++;
             }
-            index++;
         }
 
+        
         if (deletedMusics.size()>0) {
-            for (int i=0; i<deleteIndex.size(); i++)
-                musicHolder.deleteMusic(deleteIndex.get(i) - i);
+            {
+                int i = 0;
+                for (int index : deleteIndex)
+                    musicHolder.deleteMusic(index - i++);
+            }
             return deletedMusics;
         }
 
@@ -73,7 +79,7 @@ public class MusicController {
     }
 
 
-    
+
 
     /**
      * Get all music's names in the MusicHolder
@@ -103,13 +109,24 @@ public class MusicController {
     }
 
 
-
-    public void deleteMusic() {
+    /**
+     * Delete music from MusicHolder with the given index
+     * @param index
+     */
+    public void deleteMusic(int index) {
         // TODO: Delete Music here (from Music\Tracks, not original file)
-
+        this.musicHolder.deleteMusic(index);
     }
 
 
+    /**
+     * Delete music and its copies from MusicHolder with the given Music provided.
+     * Please be aware that the Music provided should be gotten from MusicHolder, or else it won't delete the music
+     * @param musicToDelete
+     */
+    public void deleteMusic(Music musicToDelete) {
+        this.musicHolder.deleteMusic(musicToDelete);
+    }
 
 
 

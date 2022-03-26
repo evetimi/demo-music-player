@@ -6,8 +6,6 @@ package com.miura.music.View;
 
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import com.miura.music.Controller.MusicController;
 import com.miura.music.Model.Music;
 import com.miura.music.View.ViewModel.MusicTitleLabel;
@@ -214,6 +212,11 @@ public class MainView extends javax.swing.JFrame {
         });
 
         deleteMusicButton.setText("Delete Music");
+        deleteMusicButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMusicButtonActionPerformed(evt);
+            }
+        });
 
         playCurrentButton.setText("PLAY");
         playCurrentButton.setCircle(true);
@@ -327,17 +330,17 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_prevTrackButtonActionPerformed
 
     private void showListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showListButtonActionPerformed
-        // TODO add your handling code here:
+        
         changePageSwappedPanel(listPanel);
     }//GEN-LAST:event_showListButtonActionPerformed
 
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
-        // TODO add your handling code here:
+        
         System.exit(0);
     }//GEN-LAST:event_quitButtonActionPerformed
 
     private void insertMusicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertMusicButtonActionPerformed
-        // TODO add your handling code here:
+        
         fc.setMultiSelectionEnabled(true);
         fc.setFileFilter(filter);
         fc.setDialogTitle("Choose Pictures");
@@ -354,14 +357,19 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_insertMusicButtonActionPerformed
 
     private void musicListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_musicListValueChanged
-        // TODO add your handling code here:
+        
         selectedMusicList = musicList.getSelectedValue();
-        musicTitleLabel.setText(selectedMusicList.toString());
-        checkForTitleSize(musicTitleLabel);
+        
+        if (selectedMusicList==null) {
+            musicTitleLabel.setText("No music chosen");
+        } else {
+            musicTitleLabel.setText(selectedMusicList.toString());
+            checkForTitleSize(musicTitleLabel);
+        }
     }//GEN-LAST:event_musicListValueChanged
 
     private void playCurrentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playCurrentButtonActionPerformed
-        // TODO add your handling code here:
+        
         currentMusic = selectedMusicList;
         musicController.choose(currentMusic);
         musicTitleLabel1.setText(currentMusic.toString());
@@ -370,7 +378,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_playCurrentButtonActionPerformed
 
     private void playTrackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playTrackButtonActionPerformed
-        // TODO add your handling code here:
+        
         if (currentMusic==null) return;
         
         if (!isRunning) {
@@ -384,6 +392,27 @@ public class MainView extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_playTrackButtonActionPerformed
+
+    private void deleteMusicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMusicButtonActionPerformed
+        // TODO add your handling code here:
+        Music music = selectedMusicList;
+        if (music==null) {
+            javax.swing.JOptionPane.showMessageDialog(null, "No music chosen", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int answer = javax.swing.JOptionPane.showOptionDialog(null, "You are about to delete " + music.getName() + "!\nClick YES to confirm deletion.", "Warning", javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE, null, null, 0);
+        
+        // YES: 0 ; NO: 1
+        
+        if (answer==0) {
+            playTrackButtonActionPerformed(evt);
+            model.removeElement(music);
+            musicController.deleteMusic(music);
+            if (currentMusic==null) musicTitleLabel1.setText("No music chosen");
+        }
+        
+    }//GEN-LAST:event_deleteMusicButtonActionPerformed
 
     
     private void changePageSwappedPanel(javax.swing.JPanel panel) {
@@ -426,7 +455,7 @@ public class MainView extends javax.swing.JFrame {
         if (deletedMusics!=null) {
             StringBuilder str = new StringBuilder("There were some musics have been deleted:\n");
             for (Music music : deletedMusics) str.append("- " + music.getName() + "\n");
-            javax.swing.JOptionPane.showMessageDialog(null, str, "Warning", JOptionPane.WARNING_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, str, "Warning", javax.swing.JOptionPane.WARNING_MESSAGE);
         }
         
         if (musics==null) {

@@ -402,6 +402,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Delete Music"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteMusicButtonActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="com.miura.music.View.ViewModel.CustomButton" name="playCurrentButton">
                       <Properties>

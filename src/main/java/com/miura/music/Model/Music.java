@@ -5,6 +5,7 @@
 package com.miura.music.Model;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  *
@@ -37,6 +38,17 @@ public class Music {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Music)) {
+            return false;
+        }
+        Music music = (Music) o;
+        return Objects.equals(file, music.file);
     }
 
     @Override
