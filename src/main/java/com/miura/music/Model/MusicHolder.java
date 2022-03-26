@@ -15,8 +15,9 @@ public final class MusicHolder {
 
     public MusicHolder() {
 
-        if (!FileExistent.check(MusicHolder.tracks)) {
+        if (!FileHandler.checkExist(MusicHolder.tracks)) {
             try {
+                new File(tracks.getPath().substring(0, tracks.getPath().lastIndexOf("\\"))).mkdir();
                 tracks.createNewFile();
                 System.out.println("There were no Musics\\Tracks file, so this will create a brand new empty Tracks file.");
             } catch (IOException e) {
@@ -65,9 +66,9 @@ public final class MusicHolder {
     }
 
     public void insertMusic(String musicName, File file) {
-        if (!FileExistent.check(file)) return;
+        if (!FileHandler.checkExist(file)) return;
 
-        if (!checkExtension(file)) {
+        if (!FileHandler.isMusicFile(file)) {
             System.err.println("Error: A file extension must be .wav");
             return;
         }
@@ -87,12 +88,6 @@ public final class MusicHolder {
 
     public void insertMusic(String musicName, String path) {
         this.insertMusic(musicName, new File(path));
-    }
-
-    private boolean checkExtension(File file) {
-        String str = file.getName();
-        String extension = str.substring(str.indexOf(".")+1, str.length());
-        return extension.equals("wav");
     }
 
     public void deleteMusic(int index) {

@@ -8,7 +8,7 @@ public class Reader {
 
 
     public static byte[] read(File file) {
-        if (!FileExistent.check(file)) return null;
+        if (!FileHandler.checkExist(file)) return null;
 
         try {
             byte[] arr = Files.readAllBytes(file.toPath());

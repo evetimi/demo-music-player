@@ -14,7 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.miura.music.Model.Music;
 import com.miura.music.Model.MusicHolder;
-import com.miura.music.Model.FileExistent;
+import com.miura.music.Model.FileHandler;
 
 public class MusicController {
     
@@ -49,7 +49,7 @@ public class MusicController {
         {
             int index = 0;
             for (Music music : musics) {
-                if (!FileExistent.check(music.getFile())) {
+                if (!FileHandler.checkExist(music.getFile())) {
                     deletedMusics.add(music);
                     deleteIndex.add(index);
                 }
@@ -168,7 +168,7 @@ public class MusicController {
      * @param music
      */
     public void choose(Music music) {
-        if (!FileExistent.check(music.getFile())) {
+        if (!FileHandler.checkExist(music.getFile())) {
             System.err.println("No such music found in your path with the Music provided.");
             return;
         }

@@ -21,7 +21,11 @@ public class Music {
 
     public Music(String name, File file) {
         this.name = name;
-        this.file = file;
+
+        if (!FileHandler.isMusicFile(file)) {
+            System.err.println("Cannot instanciate Music object. Music can only be .wav");
+            this.file = null;
+        } else this.file = file;
     }
 
     public String getName() {
@@ -37,6 +41,10 @@ public class Music {
     }
 
     public void setFile(File file) {
+        if (!FileHandler.isMusicFile(file)) {
+            System.err.println("Music can only be .wav");
+            return;
+        }
         this.file = file;
     }
 

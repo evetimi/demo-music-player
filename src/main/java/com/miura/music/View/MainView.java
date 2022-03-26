@@ -406,9 +406,11 @@ public class MainView extends javax.swing.JFrame {
         // YES: 0 ; NO: 1
         
         if (answer==0) {
-            playTrackButtonActionPerformed(evt);
+            if (isRunning && music == currentMusic) playTrackButtonActionPerformed(evt);
             model.removeElement(music);
             musicController.deleteMusic(music);
+
+            if (music==currentMusic) currentMusic=null;
             if (currentMusic==null) musicTitleLabel1.setText("No music chosen");
         }
         

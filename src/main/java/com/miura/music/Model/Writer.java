@@ -10,7 +10,7 @@ public class Writer {
 
 
     public static void write(File file, byte[] bytes) {
-        if (!FileExistent.check(file)) return;
+        if (!FileHandler.checkExist(file)) return;
 
         try (OutputStream os = new FileOutputStream(file)) {
 
