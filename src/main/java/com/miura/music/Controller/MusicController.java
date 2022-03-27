@@ -2,7 +2,6 @@ package com.miura.music.Controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -103,7 +102,6 @@ public class MusicController {
 
 
     public void insertMusic(String path) {
-        // TODO: Insert Music here
         File file = new File(path);
         this.musicHolder.insertMusic(file.getName(), file);
     }
@@ -114,7 +112,6 @@ public class MusicController {
      * @param index
      */
     public void deleteMusic(int index) {
-        // TODO: Delete Music here (from Music\Tracks, not original file)
         this.musicHolder.deleteMusic(index);
     }
 
